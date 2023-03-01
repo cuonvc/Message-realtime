@@ -1,8 +1,7 @@
-package com.project.message.messagerealtime.entity;
+package com.project.message.messagerealtime.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;

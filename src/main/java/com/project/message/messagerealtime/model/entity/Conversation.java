@@ -1,4 +1,4 @@
-package com.project.message.messagerealtime.entity;
+package com.project.message.messagerealtime.model.entity;
 
 import com.project.message.messagerealtime.utils.enumaration.ConversationType;
 import jakarta.persistence.*;
