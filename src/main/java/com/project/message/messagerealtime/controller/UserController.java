@@ -2,6 +2,7 @@ package com.project.message.messagerealtime.controller;
 
 import com.project.message.messagerealtime.model.dto.UserDTO;
 import com.project.message.messagerealtime.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    private ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
+    private ResponseEntity<UserDTO> create(@RequestBody @Valid UserDTO userDTO) {
         return new ResponseEntity<>(userService.create(userDTO), HttpStatus.CREATED);
     }
 

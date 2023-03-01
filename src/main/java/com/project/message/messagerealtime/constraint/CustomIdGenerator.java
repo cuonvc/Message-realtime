@@ -12,9 +12,9 @@ public class CustomIdGenerator implements IdentifierGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object object) throws HibernateException {
 
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(UUID.randomUUID().toString(), 0, 7);
-        return builder;
+//        StringBuilder builder = new StringBuilder();
+//
+//        builder.append(UUID.randomUUID().toString(), 0, 7);
+        return UUID.randomUUID().toString();
     }
 }

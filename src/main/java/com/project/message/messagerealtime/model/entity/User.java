@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "phone_number"})})
 @Data
 public class User extends Common {
 
@@ -35,9 +35,9 @@ public class User extends Common {
     @Column(name = "avatar")
     private String avatar;
 
-    @Column(name = "is_root")
+    @Column(name = "with_role")
     @Enumerated(EnumType.STRING)
-    private Role isRoot = Role.IS_MEMBER;
+    private Role withRole = Role.IS_MEMBER;
 
     @ManyToMany
     @JoinTable(

@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 public class Common {
 
     @Id
-    @GeneratedValue(generator = "custom_id")
     @GenericGenerator(name = "custom_id", strategy = "com.project.message.messagerealtime.constraint.CustomIdGenerator")
+    @GeneratedValue(generator = "custom_id")
     private String id;
 
     @Column(name = "created_date")
