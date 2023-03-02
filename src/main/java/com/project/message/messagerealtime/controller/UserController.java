@@ -1,6 +1,7 @@
 package com.project.message.messagerealtime.controller;
 
 import com.project.message.messagerealtime.model.dto.UserDTO;
+import com.project.message.messagerealtime.model.payload.RegisterRequest;
 import com.project.message.messagerealtime.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    private ResponseEntity<UserDTO> create(@RequestBody @Valid UserDTO userDTO) {
-        return new ResponseEntity<>(userService.create(userDTO), HttpStatus.CREATED);
+    private ResponseEntity<UserDTO> register(@RequestBody @Valid RegisterRequest request) {
+        return new ResponseEntity<>(userService.create(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

@@ -30,7 +30,7 @@ public class User extends Common {
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Gender gender = Gender.NOT_DEFINE;
 
     @Column(name = "avatar")
     private String avatar;

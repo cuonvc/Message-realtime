@@ -19,6 +19,4 @@ public class CommonDTO {
 
     private String modifiedBy;
 
-    private boolean isDeleted = Boolean.FALSE;
-
 }

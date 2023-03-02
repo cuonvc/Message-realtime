@@ -37,8 +37,6 @@ public class UserDTO extends CommonDTO {
 
     private String avatar;
 
-    private Role isRoot = Role.IS_MEMBER;
-
     private Set<ConversationDTO> conversationDTOS = new HashSet<>();
 
     private Set<MessageDTO> messageDTOS = new HashSet<>();

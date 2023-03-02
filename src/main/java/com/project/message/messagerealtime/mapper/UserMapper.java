@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserMapper {
 
-    User regRequestToUser(RegisterRequest request);
+    @Mapping(source = "registerDate", target = "createdDate")
+    User mapUserFromRegRequest(RegisterRequest request);
 
     UserDTO mapUserDTOFromUser(User user);
     User mapUserFromUserDTO(UserDTO userDTO);
