@@ -2,6 +2,7 @@ package com.project.message.messagerealtime.service.impl;
 
 import com.project.message.messagerealtime.constraint.CustomIdGenerator;
 import com.project.message.messagerealtime.exception.ResourceNotFoundException;
+import com.project.message.messagerealtime.mapper.UserMapper;
 import com.project.message.messagerealtime.model.dto.UserDTO;
 import com.project.message.messagerealtime.model.entity.User;
 import com.project.message.messagerealtime.repository.UserRepository;
@@ -24,13 +25,15 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper mapper;
 
+    private final UserMapper userMapper;
+
     private final EntityManager entityManager;
 
     @Override
     public UserDTO create(UserDTO userDTO) {
         userDTO.setCreatedDate(LocalDateTime.now());
-        User userCreated = userRepository.save(mapper.map(userDTO, User.class));
-        return mapper.map(userCreated, UserDTO.class);
+        User userCreated = userRepository.save(userMapper.mapUserFromUserDTO(userDTO));
+        return userMapper.mapUserDTOFromUser(userCreated);
     }
 
     @Override
