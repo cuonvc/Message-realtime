@@ -8,12 +8,15 @@ import com.project.message.messagerealtime.model.entity.User;
 import com.project.message.messagerealtime.model.payload.RegisterRequest;
 import com.project.message.messagerealtime.repository.UserRepository;
 import com.project.message.messagerealtime.service.UserService;
+import com.project.message.messagerealtime.utils.enumaration.RegisterBy;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -30,11 +33,22 @@ public class UserServiceImpl implements UserService {
 
     private final EntityManager entityManager;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
-    public UserDTO create(RegisterRequest regRequest) {
-        regRequest.setRegisterDate(LocalDateTime.now());
-        User userCreated = userRepository.save(userMapper.mapUserFromRegRequest(regRequest));
-        return userMapper.mapUserDTOFromUser(userCreated);
+    public void create(RegisterRequest regRequest) {
+        User user = userRepository.findByPhoneNumberOrEmail(regRequest.getPhoneNumber(),
+                regRequest.getEmail()).orElse(null);
+
+        if (user != null) {
+            throw new RuntimeException("Email or phone number is existed!");
+        }
+
+        user = userMapper.mapUserFromRegRequest(regRequest);
+        user.setPassword(passwordEncoder.encode(regRequest.getPassword()));
+        user.setCreatedBy(RegisterBy.SIGN_IN_FORM.toString());
+
+        userRepository.save(user);
     }
 
     @Override

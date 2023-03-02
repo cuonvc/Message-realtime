@@ -16,11 +16,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/create")
-    private ResponseEntity<UserDTO> register(@RequestBody @Valid RegisterRequest request) {
-        return new ResponseEntity<>(userService.create(request), HttpStatus.CREATED);
-    }
-
     @PutMapping("/update/{id}")
     private ResponseEntity<UserDTO> update(@PathVariable(name = "id") String userId,
                                            @RequestBody UserDTO userDTO) {
