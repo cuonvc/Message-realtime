@@ -11,6 +11,7 @@ public class ResourceNotFoundException extends RuntimeException {
     private Integer fieldValueInteger;
 
     public ResourceNotFoundException(String resourceName, String fieldName, String fieldValueString, Integer fieldValueInteger) {
+        super(String.format("%s not found with %s: %s, %d", resourceName, fieldName, fieldValueString, fieldValueInteger));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValueString = fieldValueString;
@@ -18,12 +19,14 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public ResourceNotFoundException(String resourceName, String fieldName, String fieldValueString) {
+        super(String.format("%s not found with %s: %s", resourceName, fieldName, fieldValueString));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValueString = fieldValueString;
     }
 
     public ResourceNotFoundException(String resourceName, String fieldName, Integer fieldValueInteger) {
+        super(String.format("%s not found with %s: %d", resourceName, fieldName, fieldValueInteger));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValueInteger = fieldValueInteger;

@@ -33,23 +33,6 @@ public class UserServiceImpl implements UserService {
 
     private final EntityManager entityManager;
 
-    private final PasswordEncoder passwordEncoder;
-
-    @Override
-    public void create(RegisterRequest regRequest) {
-        User user = userRepository.findByPhoneNumberOrEmail(regRequest.getPhoneNumber(),
-                regRequest.getEmail()).orElse(null);
-
-        if (user != null) {
-            throw new RuntimeException("Email or phone number is existed!");
-        }
-
-        user = userMapper.mapUserFromRegRequest(regRequest);
-        user.setPassword(passwordEncoder.encode(regRequest.getPassword()));
-        user.setCreatedBy(RegisterBy.SIGN_IN_FORM.toString());
-
-        userRepository.save(user);
-    }
 
     @Override
     public UserDTO update(UserDTO userDTO) {
