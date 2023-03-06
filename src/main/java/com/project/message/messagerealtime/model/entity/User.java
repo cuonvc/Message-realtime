@@ -1,5 +1,7 @@
 package com.project.message.messagerealtime.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.message.messagerealtime.utils.enumaration.Gender;
 import com.project.message.messagerealtime.utils.enumaration.Role;
 import jakarta.persistence.*;
@@ -49,5 +51,8 @@ public class User extends Common {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Message> messages = new HashSet<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private RefreshToken refreshToken;
 
 }

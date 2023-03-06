@@ -21,3 +21,5 @@ app:
   jwt:
     secret: "message-key"
     expiration-milliseconds: 600000
+  refresh-token:
+    expiration-milliseconds: 604800000

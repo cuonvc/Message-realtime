@@ -1,11 +1,11 @@
 package com.project.message.messagerealtime.controller;
 
 import com.project.message.messagerealtime.model.dto.UserDTO;
-import com.project.message.messagerealtime.model.payload.AuthenticationRequest;
-import com.project.message.messagerealtime.model.payload.JwtAuthResponse;
-import com.project.message.messagerealtime.model.payload.RegisterRequest;
+import com.project.message.messagerealtime.model.payload.*;
+import com.project.message.messagerealtime.repository.RefreshTokenRepository;
 import com.project.message.messagerealtime.security.JwtTokenProvider;
 import com.project.message.messagerealtime.service.AuthService;
+import com.project.message.messagerealtime.service.RefreshTokenService;
 import com.project.message.messagerealtime.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +28,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    private final RefreshTokenService refreshTokenService;
+
+    private final RefreshTokenRepository refreshTokenRepository;
+
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/form/signup")
     public ResponseEntity<?> registerForm(@RequestBody @Valid RegisterRequest request) {
@@ -41,14 +43,23 @@ public class AuthController {
     }
 
     @PostMapping("/form/login")
-    public ResponseEntity<JwtAuthResponse> loginForm(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<RefreshTokenResponse> loginForm(@RequestBody AuthenticationRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmailOrPhoneNumber(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwtToken = jwtTokenProvider.generateToken(authentication);
+        String jwtAccessToken = jwtTokenProvider.generateToken(authentication.getName());
 
-        return new ResponseEntity<>(new JwtAuthResponse(jwtToken), HttpStatus.OK);
+        String newRefreshToken = refreshTokenService.updateRefreshToken(request).getToken();
+
+        return new ResponseEntity<>(new RefreshTokenResponse(jwtAccessToken, "Bearer", newRefreshToken), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+        RefreshTokenResponse response = refreshTokenService.refreshAccessToken(request);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
