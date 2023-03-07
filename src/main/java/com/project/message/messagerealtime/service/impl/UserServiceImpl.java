@@ -38,9 +38,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(UserDTO userDTO) {
         User userTarget = userRepository.findById(userDTO.getId())
                 .orElseThrow(ResourceNotFoundException::new);
-        mapper.map(userDTO, userTarget);
+        userMapper.mapUserDtoToUser(userDTO, userTarget);
 
-        return mapper.map(userRepository.save(userTarget), UserDTO.class);
+        return userMapper.mapUserDTOFromUser(userRepository.save(userTarget));
     }
 
     @Override
